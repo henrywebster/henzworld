@@ -206,7 +206,7 @@ table ul li::before {
 
 .rows-gridded tr {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
 }
 
 .rows-gridded td:first-child {
