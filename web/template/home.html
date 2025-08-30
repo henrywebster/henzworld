@@ -9,6 +9,14 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌎</text></svg>"
     />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400;1,600&display=swap"
+      rel="stylesheet"
+    />
+
     <title>henz world</title>
   </head>
   <body>
@@ -24,15 +32,18 @@
       <hr />
     </header>
     <main>
-      <article class="container">
+      <article>
         <section class="half-width" role="region" aria-label="About">
           <img src="static/me.avif" alt="Picture of Henry" />
         </section>
         {{template "brief" .}} {{template "commits" .}} {{template "reading" .}}
         {{template "status" .}} {{template "movies" .}}
         <section class="half-width" role="region" aria-label="About">
-          <img src="static/cat.avif" alt="Cat in Tamba-Sasayama, Japan" />
-          <footer>Cat in Tamba-Sasayama, Japan</footer>
+          <figure>
+            <img src="static/cat.avif" alt="Cat in Tamba-Sasayama, Japan" />
+
+            <figcaption>Cat in Tamba-Sasayama, Japan</figcaption>
+          </figure>
         </section>
       </article>
     </main>

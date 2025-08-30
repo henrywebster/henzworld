@@ -10,16 +10,17 @@
     </svg>
   </header>
   <div>
-    {{range .Commits}}
-    <table>
-      <tr>
-        <th colspan="2">
-          <a href="{{.URL}}"><code>{{.Message}}</code></a>
-        </th>
-      </tr>
+    <table class="monospaced rows-gridded">
+      <th>Message</th>
+      <th>Repo</th>
+      <th>Datetime</th>
+      {{range .Commits}}
       <tr>
         <td>
-          <a href="{{.RepoURL}}"><code>{{.RepoName}}</code></a>
+          <a href="{{.URL}}">{{.Message}}</a>
+        </td>
+        <td>
+          <a href="{{.RepoURL}}">{{.RepoName}}</a>
         </td>
         <td>
           <time datetime="{{formatHtmlDateTime .Date}}"
@@ -27,8 +28,8 @@
           >
         </td>
       </tr>
+      {{end}}
     </table>
-    {{end}}
   </div>
   <footer>
     <nav>
