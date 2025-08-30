@@ -20,7 +20,7 @@
 }
 
 html {
-  background-color: var(--md-color);
+  background-color: var(--bg-color);
   font-family: var(--font-family);
   font-weight: var(--font-weight);
 }
@@ -30,7 +30,6 @@ body {
   max-width: 800px;
   margin: var(--grid-padding) auto;
   padding: var(--grid-padding);
-  border: var(--border);
   display: grid;
   grid-template-rows: auto 1fr;
 }
@@ -112,6 +111,7 @@ section > figure > figcaption {
 section > header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: var(--border);
   padding: var(--cell-padding);
   background-color: var(--fg-color);
@@ -161,6 +161,10 @@ table tr:first-child {
 
 table tr {
   border-bottom: var(--border);
+}
+
+table tr:hover {
+  background-color: var(--md-color);
 }
 
 table td {
