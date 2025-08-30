@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"time"
 )
 
 func main() {
@@ -15,8 +16,24 @@ func main() {
 		log.Fatal("Could not load config:", err)
 	}
 
+	funcMap := template.FuncMap{
+		"formatDate": func(t time.Time) string {
+			return t.Format("Jan 02, 2006")
+		},
+		"formatDateTime": func(t time.Time) string {
+			return t.Format("Jan 02, 2006 15:04")
+		},
+		// for the nerds
+		"formatHtmlDate": func(t time.Time) string {
+			return t.Format("2006-01-02")
+		},
+		"formatHtmlDateTime": func(t time.Time) string {
+			return t.Format("2006-01-02 15:04")
+		},
+	}
+
 	templatePattern := filepath.Join(config.TemplateDir, "*.html")
-	templates, err := template.ParseGlob(templatePattern)
+	templates, err := template.New("").Funcs(funcMap).ParseGlob(templatePattern)
 	if err != nil {
 		log.Fatal("Error loading templates:", err)
 	}

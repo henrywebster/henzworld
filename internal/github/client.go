@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"henzworld/internal"
 	"net/http"
+	"time"
 )
 
 type Client struct {
@@ -37,9 +38,9 @@ type Response struct {
 						Target struct {
 							History struct {
 								Nodes []struct {
-									MessageHeadline string `json:"messageHeadline"`
-									CommittedDate   string `json:"committedDate"`
-									CommitURL       string `json:"commitUrl"`
+									MessageHeadline string    `json:"messageHeadline"`
+									CommittedDate   time.Time `json:"committedDate"`
+									CommitURL       string    `json:"commitUrl"`
 								} `json:"nodes"`
 							} `json:"history"`
 						} `json:"target"`

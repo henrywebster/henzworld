@@ -22,7 +22,9 @@
           <a href="{{.RepoURL}}"><code>{{.RepoName}}</code></a>
         </td>
         <td>
-          <time datetime="{{.Date}}">{{.Date}}</time>
+          <time datetime="{{formatHtmlDateTime .Date}}"
+            >{{formatDateTime .Date}}</time
+          >
         </td>
       </tr>
     </table>

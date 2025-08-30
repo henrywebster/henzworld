@@ -16,7 +16,7 @@ type Commit struct {
 type Movie struct {
 	Title       string
 	Year        string
-	WatchedDate string
+	WatchedDate time.Time
 	URL         string
 }
 
