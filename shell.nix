@@ -3,6 +3,7 @@
     nativeBuildInputs = with pkgs.buildPackages; [
       go
       air
+      flyctl
     ];
 
     shellHook = ''
