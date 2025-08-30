@@ -1,3 +1,4 @@
+// Package goodreads: Goodreads RSS feed
 package goodreads
 
 import (
