@@ -17,6 +17,7 @@ type DefaultHandler struct {
 type CachedHandler struct {
 	Client *Client
 	Cache  *internal.MemoryCache
+	TTL    time.Duration
 }
 
 func (handler *DefaultHandler) GetStatus() (*model.Status, error) {
@@ -40,6 +41,6 @@ func (handler *CachedHandler) GetStatus() (*model.Status, error) {
 
 	status := statusResponse.GetStatus()
 
-	handler.Cache.Set(cacheKey, status, 5*time.Minute)
+	handler.Cache.Set(cacheKey, status, handler.TTL)
 	return status, nil
 }

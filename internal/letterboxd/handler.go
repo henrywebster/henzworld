@@ -18,6 +18,7 @@ type DefaultHandler struct {
 type CachedHandler struct {
 	Client *internal.RssClient
 	Cache  *internal.MemoryCache
+	TTL    time.Duration
 }
 
 func (handler *DefaultHandler) GetRecentlyWatched() ([]model.Movie, error) {
@@ -44,6 +45,6 @@ func (handler *CachedHandler) GetRecentlyWatched() ([]model.Movie, error) {
 
 	movies := GetLetterboxdWatched(letterboxdFeed)
 
-	handler.Cache.Set(cacheKey, movies, 5*time.Minute)
+	handler.Cache.Set(cacheKey, movies, handler.TTL)
 	return movies, nil
 }

@@ -1,3 +1,4 @@
+// Package internal: shared utilities
 package internal
 
 import (

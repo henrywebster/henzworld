@@ -35,22 +35,27 @@ func SetupClients(config *internal.Config) *Clients {
 
 	if config.CacheEnabled {
 		cache := internal.NewMemoryCache()
+		defaultTTL := time.Minute * 60
 
 		gitHubHandler = &github.CachedHandler{
 			Client: gitHubClient,
 			Cache:  cache,
+			TTL:    defaultTTL,
 		}
 		goodreadsHandler = &goodreads.CachedHandler{
 			Client: goodreadsClient,
 			Cache:  cache,
+			TTL:    defaultTTL,
 		}
 		statusCafeHandler = &statuscafe.CachedHandler{
 			Client: statusCafeClient,
 			Cache:  cache,
+			TTL:    defaultTTL,
 		}
 		letterboxdHandler = &letterboxd.CachedHandler{
 			Client: letterboxdClient,
 			Cache:  cache,
+			TTL:    defaultTTL,
 		}
 	} else {
 		gitHubHandler = &github.DefaultHandler{

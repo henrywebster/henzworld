@@ -17,6 +17,7 @@ type DefaultHandler struct {
 type CachedHandler struct {
 	Client *Client
 	Cache  *internal.MemoryCache
+	TTL    time.Duration
 }
 
 func (handler *DefaultHandler) GetCommits() ([]model.Commit, error) {
@@ -57,6 +58,6 @@ func (handler *CachedHandler) GetCommits() ([]model.Commit, error) {
 		commits = commits[:5]
 	}
 
-	handler.Cache.Set(cacheKey, commits, 5*time.Minute)
+	handler.Cache.Set(cacheKey, commits, handler.TTL)
 	return commits, nil
 }

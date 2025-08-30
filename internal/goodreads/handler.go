@@ -17,6 +17,7 @@ type DefaultHandler struct {
 type CachedHandler struct {
 	Client *internal.RssClient
 	Cache  *internal.MemoryCache
+	TTL    time.Duration
 }
 
 func (handler *DefaultHandler) GetCurrentlyReading() ([]model.Book, error) {
@@ -43,6 +44,6 @@ func (handler *CachedHandler) GetCurrentlyReading() ([]model.Book, error) {
 
 	books := GetGoodreadsCurrentlyReading(goodreadsFeed)
 
-	handler.Cache.Set(cacheKey, books, 5*time.Minute)
+	handler.Cache.Set(cacheKey, books, handler.TTL)
 	return books, nil
 }
