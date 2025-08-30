@@ -8,8 +8,8 @@
   --text-size-medium: 1.5em;
   --text-size-large: 2em;
 
-  --font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
-  --font-family-mono: "IBM Plex Mono", monospace;
+  --font-family: "Noto Serif", system-ui, -apple-system, serif;
+  --font-family-mono: "Noto Sans Mono", monospace;
   --font-weight: 400;
   --font-weight-bold: 600;
 
