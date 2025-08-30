@@ -1,4 +1,4 @@
-package shared
+package github
 
 const PublicReposCommitsQuery = `
 {

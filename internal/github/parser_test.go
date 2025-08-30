@@ -1,4 +1,4 @@
-package shared
+package github
 
 import (
 	"encoding/json"
@@ -16,7 +16,7 @@ func TestGithubToCommits_NoRepos(t *testing.T) {
         }
     }`
 
-	var resp GitHubAPIResponse
+	var resp Response
 	json.Unmarshal([]byte(jsonData), &resp)
 
 	commits, err := resp.ToCommits()
@@ -63,7 +63,7 @@ func TestGithubToCommits_Success(t *testing.T) {
         }
     }`
 
-	var resp GitHubAPIResponse
+	var resp Response
 	json.Unmarshal([]byte(jsonData), &resp)
 
 	commits, err := resp.ToCommits()

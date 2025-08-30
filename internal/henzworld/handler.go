@@ -1,27 +1,22 @@
-package handlers
+// Package henzworld: core server logic
+package henzworld
 
 import (
-	"henzworld/shared"
+	"henzworld/internal/model"
 	"html/template"
 	"log"
 	"net/http"
 )
 
 func NewHomeHandler(clients *Clients, templates *template.Template) http.HandlerFunc {
-	//gitHubAPICommitFetcher := GitHubAPIFetcher{
-	//	GitHubAPIClient: clients.GitHub,
-	//}
-	//
-	//
-
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := struct {
 			Title            string
 			Message          string
-			Commits          []shared.Commit
-			RecentlyWatched  []shared.Movie
-			Status           *shared.Status
-			CurrentlyReading []shared.Book
+			Commits          []model.Commit
+			RecentlyWatched  []model.Movie
+			Status           *model.Status
+			CurrentlyReading []model.Book
 		}{
 			Title:   "home",
 			Message: "henz world",
