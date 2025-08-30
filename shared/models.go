@@ -1,4 +1,4 @@
-package main
+package shared
 
 import (
 	"fmt"
@@ -64,7 +64,7 @@ type Movie struct {
 	URL         string
 }
 
-func getLetterboxdWatched(items []*gofeed.Item) []Movie {
+func GetLetterboxdWatched(items []*gofeed.Item) []Movie {
 	var movies []Movie
 
 	for i := range items {
@@ -93,7 +93,7 @@ type Book struct {
 	URL        string
 }
 
-func getGoodreadsCurrentlyReading(items []*gofeed.Item) []Book {
+func GetGoodreadsCurrentlyReading(items []*gofeed.Item) []Book {
 	var books []Book
 
 	for i := range items {

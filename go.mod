@@ -1,4 +1,4 @@
-module personal-website
+module henzworld
 
 go 1.24.5
 

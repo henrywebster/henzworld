@@ -2,14 +2,15 @@ package main
 
 import (
 	"fmt"
+	"henzworld/handlers"
+	"henzworld/shared"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 )
-
-var templates *template.Template
 
 type Config struct {
 	GHToken       string
@@ -17,6 +18,7 @@ type Config struct {
 	StatusCafeURL string
 	GoodreadsURL  string
 	Port          string
+	CacheEnabled  bool
 }
 
 func loadConfig() (*Config, error) {
@@ -40,6 +42,12 @@ func loadConfig() (*Config, error) {
 		return nil, err
 	}
 
+	cacheEnabledValue := os.Getenv("CACHE_ENABLED")
+	cacheEnabled, err := strconv.ParseBool(cacheEnabledValue)
+	if err != nil {
+		cacheEnabled = true
+	}
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
@@ -51,6 +59,7 @@ func loadConfig() (*Config, error) {
 		StatusCafeURL: *statusCafeURL,
 		GoodreadsURL:  *goodreadsURL,
 		Port:          port,
+		CacheEnabled:  cacheEnabled,
 	}, nil
 }
 
@@ -63,21 +72,69 @@ func getEnvOrError(key string) (*string, error) {
 	return &value, nil
 }
 
-type Clients struct {
-	GitHub     *GitHubClient
-	Letterboxd *RssClient
-	StatusCafe *StatusClient
-	Goodreads  *RssClient
-}
-
-func main() {
+func setupClients(config *Config) *handlers.Clients {
 	httpClient := &http.Client{
 		// TODO timeout config
 		Timeout: 5 * time.Second,
 	}
 
-	var err error
-	templates, err = template.ParseGlob("template/*.html")
+	var gitHubHandler handlers.GitHubHandler
+	var statusCafeHandler handlers.StatusCafeHandler
+	var goodreadsHandler handlers.GoodreadsHandler
+	var letterboxdHandler handlers.LetterboxdHandler
+
+	gitHubClient := shared.NewGitHubClient(httpClient, config.GHToken)
+	statusCafeClient := shared.NewStatusClient(httpClient, config.StatusCafeURL)
+	goodreadsClient := shared.NewRssClient(httpClient, config.GoodreadsURL)
+	letterboxdClient := shared.NewRssClient(httpClient, config.LetterboxdURL)
+
+	if config.CacheEnabled {
+		cache := shared.NewMemoryCache()
+
+		gitHubHandler = &handlers.CachedGitHubHandler{
+			GitHubAPIClient: gitHubClient,
+			Cache:           cache,
+		}
+		statusCafeHandler = &handlers.CachedStatusCafeHandler{
+			StatusCafeClient: statusCafeClient,
+			Cache:            cache,
+		}
+		goodreadsHandler = &handlers.CachedGoodreadsHandler{
+			Client: goodreadsClient,
+			Cache:  cache,
+		}
+
+		letterboxdHandler = &handlers.CachedLetterboxdHandler{
+			Client: letterboxdClient,
+			Cache:  cache,
+		}
+	} else {
+		gitHubHandler = &handlers.DefaultGitHubHandler{
+			GitHubAPIClient: gitHubClient,
+		}
+		statusCafeHandler = &handlers.DefaultStatusCafeHandler{
+			StatusCafeClient: statusCafeClient,
+		}
+		goodreadsHandler = &handlers.DefaultGoodreadsHandler{
+			Client: goodreadsClient,
+		}
+
+		letterboxdHandler = &handlers.DefaultLetterboxdHandler{
+			Client: letterboxdClient,
+		}
+	}
+
+	clients := handlers.Clients{
+		GitHub:     gitHubHandler,
+		Letterboxd: letterboxdHandler,
+		StatusCafe: statusCafeHandler,
+		Goodreads:  goodreadsHandler,
+	}
+	return &clients
+}
+
+func main() {
+	templates, err := template.ParseGlob("template/*.html")
 	if err != nil {
 		log.Fatal("Error loading templates:", err)
 	}
@@ -87,14 +144,9 @@ func main() {
 		log.Fatal("Could not load config:", err)
 	}
 
-	clients := Clients{
-		GitHub:     NewGitHubClient(httpClient, config.GHToken),
-		Letterboxd: NewRssClient(httpClient, config.LetterboxdURL),
-		StatusCafe: NewStatusClient(httpClient, config.StatusCafeURL),
-		Goodreads:  NewRssClient(httpClient, config.GoodreadsURL),
-	}
+	clients := setupClients(config)
 
-	homeHandler := newHomeHandler(&clients)
+	homeHandler := handlers.NewHomeHandler(clients, templates)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/{$}", homeHandler)

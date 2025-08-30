@@ -1,13 +1,22 @@
-package main
+package shared
 
 import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/mmcdole/gofeed"
 )
+
+func timeFunction(name string) func() {
+	start := time.Now()
+	return func() {
+		log.Printf("%s took: %v\n", name, time.Since(start))
+	}
+}
 
 // GitHub
 
@@ -56,6 +65,7 @@ type GitHubAPIResponse struct {
 }
 
 func (c *GitHubClient) GetPublicRepoCommits() (*GitHubAPIResponse, error) {
+	defer timeFunction("github_public_repo_commits")()
 	reqBody := GraphQLRequest{
 		Query: PublicReposCommitsQuery,
 	}
@@ -109,6 +119,7 @@ func NewRssClient(httpClient *http.Client, url string) *RssClient {
 }
 
 func (c *RssClient) GetRssFeed() ([]*gofeed.Item, error) {
+	defer timeFunction(fmt.Sprintf("get_rss_feed_%s", c.url))()
 	feed, err := c.parser.ParseURL(c.url)
 	if err != nil {
 		return nil, err
@@ -138,6 +149,7 @@ func NewStatusClient(httpClient *http.Client, url string) *StatusClient {
 }
 
 func (c *StatusClient) GetStatus() (*StatusResponse, error) {
+	defer timeFunction("get_status")()
 	resp, err := http.Get(c.url)
 	if err != nil {
 		return nil, err
