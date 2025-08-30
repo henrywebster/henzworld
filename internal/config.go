@@ -13,6 +13,8 @@ type Config struct {
 	StatusCafeURL string
 	GoodreadsURL  string
 	Port          string
+	StaticDir     string
+	TemplateDir   string
 	CacheEnabled  bool
 }
 
@@ -37,6 +39,16 @@ func LoadConfig() (*Config, error) {
 		return nil, err
 	}
 
+	staticDir, err := getEnvOrError("STATIC_DIR")
+	if err != nil {
+		return nil, err
+	}
+
+	templateDir, err := getEnvOrError("TEMPLATE_DIR")
+	if err != nil {
+		return nil, err
+	}
+
 	cacheEnabledValue := os.Getenv("CACHE_ENABLED")
 	cacheEnabled, err := strconv.ParseBool(cacheEnabledValue)
 	if err != nil {
@@ -54,6 +66,8 @@ func LoadConfig() (*Config, error) {
 		StatusCafeURL: *statusCafeURL,
 		GoodreadsURL:  *goodreadsURL,
 		Port:          port,
+		StaticDir:     *staticDir,
+		TemplateDir:   *templateDir,
 		CacheEnabled:  cacheEnabled,
 	}, nil
 }

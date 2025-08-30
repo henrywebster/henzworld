@@ -6,24 +6,26 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"path/filepath"
 )
 
 func main() {
-	templates, err := template.ParseGlob("web/template/*.html")
-	if err != nil {
-		log.Fatal("Error loading templates:", err)
-	}
-
 	config, err := internal.LoadConfig()
 	if err != nil {
 		log.Fatal("Could not load config:", err)
+	}
+
+	templatePattern := filepath.Join(config.TemplateDir, "*.html")
+	templates, err := template.ParseGlob(templatePattern)
+	if err != nil {
+		log.Fatal("Error loading templates:", err)
 	}
 
 	clients := henzworld.SetupClients(config)
 
 	homeHandler := henzworld.NewHomeHandler(clients, templates)
 
-	http.Handle("/web/static/", http.StripPrefix("/web/static/", http.FileServer(http.Dir("static"))))
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(config.StaticDir))))
 	http.HandleFunc("/{$}", homeHandler)
 
 	log.Printf("Starting henzworld on :%s", config.Port)
