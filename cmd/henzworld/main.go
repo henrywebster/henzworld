@@ -2,6 +2,7 @@ package main
 
 import (
 	"henzworld/internal"
+	"henzworld/internal/database"
 	"henzworld/internal/henzworld"
 	"html/template"
 	"log"
@@ -32,18 +33,41 @@ func main() {
 		},
 	}
 
-	templatePattern := filepath.Join(config.TemplateDir, "*.html")
-	templates, err := template.New("").Funcs(funcMap).ParseGlob(templatePattern)
+	homeFiles := []string{
+		filepath.Join(config.TemplateDir, "layout.html"),
+		filepath.Join(config.TemplateDir, "home.html"),
+		filepath.Join(config.TemplateDir, "brief.html"),
+		filepath.Join(config.TemplateDir, "commits.html"),
+		filepath.Join(config.TemplateDir, "movies.html"),
+		filepath.Join(config.TemplateDir, "reading.html"),
+		filepath.Join(config.TemplateDir, "status.html"),
+	}
+	homeTemplate, err := template.New("home").Funcs(funcMap).ParseFiles(homeFiles...)
 	if err != nil {
 		log.Fatal("Error loading templates:", err)
 	}
 
 	clients := henzworld.SetupClients(config)
 
-	homeHandler := henzworld.NewHomeHandler(clients, templates)
+	homeHandler := henzworld.NewHomeHandler(clients, homeTemplate)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(config.StaticDir))))
 	http.HandleFunc("/{$}", homeHandler)
+
+	if config.BlogEnabled {
+		db, _ := database.New(config.DatabaseLocalFile)
+		blogFiles := []string{
+			filepath.Join(config.TemplateDir, "layout.html"),
+			filepath.Join(config.TemplateDir, "blog.html"),
+		}
+		blogTemplate, err := template.New("blog").Funcs(funcMap).ParseFiles(blogFiles...)
+		if err != nil {
+			log.Fatal("Error loading templates:", err)
+		}
+
+		blogHandler := henzworld.NewBlogHandler(db, blogTemplate)
+		http.HandleFunc("/blog/", blogHandler)
+	}
 
 	log.Printf("Starting henzworld on :%s", config.Port)
 	log.Fatal(http.ListenAndServe(":"+config.Port, nil))

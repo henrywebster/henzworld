@@ -2,6 +2,7 @@
 package henzworld
 
 import (
+	"henzworld/internal/database"
 	"henzworld/internal/model"
 	"html/template"
 	"log"
@@ -60,15 +61,29 @@ func NewHomeHandler(clients *Clients, templates *template.Template) http.Handler
 		books, err := clients.Goodreads.GetCurrentlyReading()
 		if err != nil {
 			log.Print(err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
+		} else {
+			data.CurrentlyReading = books
 		}
-
-		data.CurrentlyReading = books
 
 		// Template and write out
 
-		if err := templates.ExecuteTemplate(w, "home.html", data); err != nil {
+		if err := templates.ExecuteTemplate(w, "layout", data); err != nil {
+			// log the detailed error and return with generic 500
+			log.Print(err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+	}
+}
+
+func NewBlogHandler(db *database.DB, templates *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		posts, err := db.GetPosts()
+		if err != nil {
+			log.Print(err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+
+		if err := templates.ExecuteTemplate(w, "layout", posts); err != nil {
 			// log the detailed error and return with generic 500
 			log.Print(err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)

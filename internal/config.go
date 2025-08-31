@@ -8,14 +8,16 @@ import (
 )
 
 type Config struct {
-	GHToken       string
-	LetterboxdURL string
-	StatusCafeURL string
-	GoodreadsURL  string
-	Port          string
-	StaticDir     string
-	TemplateDir   string
-	CacheEnabled  bool
+	GHToken           string
+	LetterboxdURL     string
+	StatusCafeURL     string
+	GoodreadsURL      string
+	Port              string
+	StaticDir         string
+	TemplateDir       string
+	DatabaseLocalFile string
+	CacheEnabled      bool
+	BlogEnabled       bool
 }
 
 func LoadConfig() (*Config, error) {
@@ -55,20 +57,30 @@ func LoadConfig() (*Config, error) {
 		cacheEnabled = true
 	}
 
+	blogEnabledValue := os.Getenv("BLOG_ENABLED")
+	blogEnabled, err := strconv.ParseBool(blogEnabledValue)
+	if err != nil {
+		blogEnabled = true
+	}
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
 
+	databaseLocalFile := os.Getenv("DATABASE_LOCAL_FILE")
+
 	return &Config{
-		GHToken:       *ghToken,
-		LetterboxdURL: *letterboxdURL,
-		StatusCafeURL: *statusCafeURL,
-		GoodreadsURL:  *goodreadsURL,
-		Port:          port,
-		StaticDir:     *staticDir,
-		TemplateDir:   *templateDir,
-		CacheEnabled:  cacheEnabled,
+		GHToken:           *ghToken,
+		LetterboxdURL:     *letterboxdURL,
+		StatusCafeURL:     *statusCafeURL,
+		GoodreadsURL:      *goodreadsURL,
+		Port:              port,
+		StaticDir:         *staticDir,
+		TemplateDir:       *templateDir,
+		CacheEnabled:      cacheEnabled,
+		DatabaseLocalFile: databaseLocalFile,
+		BlogEnabled:       blogEnabled,
 	}, nil
 }
 

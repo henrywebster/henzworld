@@ -1,68 +1,22 @@
 <!-- Landing page for website -->
-<!doctype html>
-<html lang="en-US">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="static/style.css" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌎</text></svg>"
-    />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@400;600&family=Noto+Serif:ital,wght@0,400;0,600;1,400;1,600&display=swap"
-      rel="stylesheet"
-    />
-
-    <title>henz world</title>
-  </head>
-  <body>
-    <header>
-      <span>
-        <h1>
-          <a href="/">{{.Message}}</a>
-        </h1>
-        <img
-          class="pixelated blended"
-          src="static/cat.png"
-          alt="Pixel art cat"
-        />
-      </span>
-      <hr />
-    </header>
-    <main>
-      <article>
-        <section class="half-width" role="region" aria-label="About">
-          <div class="tinted">
-            <img src="static/me.avif" alt="Picture of Henry" />
-          </div>
-        </section>
-        {{template "brief" .}} {{template "commits" .}} {{template "reading" .}}
-        {{template "status" .}} {{template "movies" .}}
-        <section class="half-width" role="region" aria-label="About">
-          <figure>
-            <div class="tinted">
-              <img src="static/cat.avif" alt="Cat in Tamba-Sasayama, Japan" />
-            </div>
-            <figcaption>Cat in Tamba-Sasayama, Japan</figcaption>
-          </figure>
-        </section>
-      </article>
-    </main>
-    <footer>
-      <hr />
-      <span
-        >Something wrong with the site?
-        <a href="https://github.com/henrywebster/henz-world/issues/new"
-          >Open an issue</a
-        >
-        or
-
-        <a href="mailto:henz.world.qv1ok@dralias.com">email</a>.
-      </span>
-    </footer>
-  </body>
-</html>
+{{define "content"}}
+<main>
+  <article>
+    <section class="half-width" role="region" aria-label="About">
+      <div class="tinted">
+        <img src="static/me.avif" alt="Picture of Henry" />
+      </div>
+    </section>
+    {{template "brief" .}} {{template "commits" .}} {{template "reading" .}}
+    {{template "status" .}} {{template "movies" .}}
+    <section class="half-width" role="region" aria-label="About">
+      <figure>
+        <div class="tinted">
+          <img src="static/cat.avif" alt="Cat in Tamba-Sasayama, Japan" />
+        </div>
+        <figcaption>Cat in Tamba-Sasayama, Japan</figcaption>
+      </figure>
+    </section>
+  </article>
+</main>
+{{end}}

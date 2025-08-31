@@ -31,3 +31,9 @@ type Status struct {
 	Face    string
 	TimeAgo string
 }
+
+type Post struct {
+	Title       string
+	CreatedAt   time.Time
+	Description string
+}

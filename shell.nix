@@ -4,6 +4,8 @@
       go
       air
       flyctl
+      sqlite
+      dbmate
     ];
 
     shellHook = ''
