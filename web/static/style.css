@@ -24,11 +24,12 @@
   --grid-padding: 20px;
   --cell-padding: 5px 10px;
 
-  --border: 1px solid;
+  --border: 1px solid var(--main-color);
 }
 
 html {
   background-color: var(--bg-color);
+
   font-family: var(--font-family);
   font-weight: var(--font-weight);
   color: var(--main-color);
@@ -142,7 +143,7 @@ section > figure > figcaption {
   font-style: italic;
   border-top: var(--border);
   background-color: var(--md-color);
-  line-height: var(--text-size-medium);
+  line-height: var(--text-size-normal);
 }
 
 section > header {
@@ -157,13 +158,19 @@ section > header {
 
 section > header > h2 {
   margin: 0;
-  font-size: var(--text-size-medium);
+  font-size: var(--text-size-normal);
   font-family: var(--font-family-mono);
 }
 
 section > header > svg {
   fill: var(--bg-color);
   height: var(--text-size-medium);
+  width: auto;
+}
+
+section > header > img {
+  fill: var(--bg-color);
+  height: var(--text-size-normal);
   width: auto;
 }
 
@@ -202,6 +209,15 @@ table tr {
 
 table tr:hover {
   background-color: var(--md-color);
+  /*
+  background: repeating-linear-gradient(
+    45deg,
+    var(--bg-color) 0px,
+    var(--bg-color) 10px,
+    var(--md-color) 10px,
+    var(--md-color) 20px
+  );
+  */
 }
 
 table td {
@@ -266,12 +282,34 @@ table ul li::before {
 
   -webkit-font-smoothing: none;
 
-  width: 32px; /* or whatever size you want */
-  height: 32px;
-
   display: block;
   margin: 0;
   padding: 0;
+}
 
+.blended {
   background-color: var(--main-color);
+  width: 32px;
+  height: 32px;
+}
+
+.error > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-family-mono);
+  padding: var(--grid-padding);
+  background: repeating-linear-gradient(
+    45deg,
+    var(--fg-color) 0px,
+    var(--fg-color) 10px,
+    var(--md-color) 10px,
+    var(--md-color) 20px
+  );
+}
+
+.error > div > span {
+  background-color: white;
+  border: var(--border);
+  padding: 2px 4px;
 }
