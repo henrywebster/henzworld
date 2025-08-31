@@ -25,21 +25,24 @@
         <h1>
           <a href="/">{{.Message}}</a>
         </h1>
-        <img class="pixelated" src="static/color-test.png" />
+        <img class="pixelated" src="static/cat.png" alt="Pixel art cat" />
       </span>
       <hr />
     </header>
     <main>
       <article>
         <section class="half-width" role="region" aria-label="About">
-          <img src="static/me.avif" alt="Picture of Henry" />
+          <div class="tinted">
+            <img src="static/me.avif" alt="Picture of Henry" />
+          </div>
         </section>
         {{template "brief" .}} {{template "commits" .}} {{template "reading" .}}
         {{template "status" .}} {{template "movies" .}}
         <section class="half-width" role="region" aria-label="About">
           <figure>
-            <img src="static/cat.avif" alt="Cat in Tamba-Sasayama, Japan" />
-
+            <div class="tinted">
+              <img src="static/cat.avif" alt="Cat in Tamba-Sasayama, Japan" />
+            </div>
             <figcaption>Cat in Tamba-Sasayama, Japan</figcaption>
           </figure>
         </section>
