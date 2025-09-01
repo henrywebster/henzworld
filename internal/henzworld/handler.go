@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-func NewHomeHandler(clients *Clients, templates *template.Template) http.HandlerFunc {
+func NewHomeHandler(clients *Clients, templates *template.Template, navEnabled bool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := struct {
 			Title            string
@@ -19,10 +19,12 @@ func NewHomeHandler(clients *Clients, templates *template.Template) http.Handler
 			Status           *model.Status
 			CurrentlyReading []model.Book
 			Page             string
+			NavEnabled       bool
 		}{
-			Title:   "home",
-			Message: "henz world",
-			Page:    "Home",
+			Title:      "home",
+			Message:    "henz world",
+			Page:       "Home",
+			NavEnabled: navEnabled,
 		}
 
 		// Commits
@@ -86,11 +88,13 @@ func NewBlogHandler(db *database.DB, templates *template.Template) http.HandlerF
 		}
 
 		data := struct {
-			Posts []model.Post
-			Page  string
+			Posts      []model.Post
+			Page       string
+			NavEnabled bool
 		}{
-			Posts: posts,
-			Page:  "Blog",
+			Posts:      posts,
+			Page:       "Blog",
+			NavEnabled: true,
 		}
 
 		if err := templates.ExecuteTemplate(w, "layout", data); err != nil {

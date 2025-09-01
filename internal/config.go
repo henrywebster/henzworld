@@ -60,7 +60,7 @@ func LoadConfig() (*Config, error) {
 	blogEnabledValue := os.Getenv("BLOG_ENABLED")
 	blogEnabled, err := strconv.ParseBool(blogEnabledValue)
 	if err != nil {
-		blogEnabled = true
+		blogEnabled = false
 	}
 
 	port := os.Getenv("PORT")

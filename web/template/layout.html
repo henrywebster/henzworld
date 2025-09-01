@@ -31,14 +31,28 @@
           alt="Pixel art cat"
         />
       </span>
+      {{if .NavEnabled}}
       <nav>
         <ul>
-          <li><a class="{{if eq .Page "Home"}}active{{end}}" href="/">Home</a></li>
-          <li><a class="{{if eq .Page "Blog"}}active{{end}}"href="/blog/">Blog</a></li>
+          <li>
+            {{if eq .Page "Home"}}
+            <a class="active" href="/">Home</a>
+            {{else}}
+            <a href="/">Home</a>
+            {{end}}
+          </li>
+          <li>
+            {{if eq .Page "Blog"}}
+            <a class="active" href="/blog/">Blog</a>
+            {{else}}
+            <a href="/blog/">Blog</a>
+            {{end}}
+          </li>
           <li class="placeholder"></li>
           <li class="placeholder"></li>
         </ul>
       </nav>
+      {{end}}
       <hr />
     </header>
     <main>{{template "content" .}}</main>

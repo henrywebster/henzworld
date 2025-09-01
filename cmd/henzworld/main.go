@@ -49,7 +49,9 @@ func main() {
 
 	clients := henzworld.SetupClients(config)
 
-	homeHandler := henzworld.NewHomeHandler(clients, homeTemplate)
+	navEnabled := config.BlogEnabled
+
+	homeHandler := henzworld.NewHomeHandler(clients, homeTemplate, navEnabled)
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(config.StaticDir))))
 	http.HandleFunc("/{$}", homeHandler)
