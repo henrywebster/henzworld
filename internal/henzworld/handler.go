@@ -18,9 +18,11 @@ func NewHomeHandler(clients *Clients, templates *template.Template) http.Handler
 			RecentlyWatched  []model.Movie
 			Status           *model.Status
 			CurrentlyReading []model.Book
+			Page             string
 		}{
 			Title:   "home",
 			Message: "henz world",
+			Page:    "Home",
 		}
 
 		// Commits
@@ -83,7 +85,15 @@ func NewBlogHandler(db *database.DB, templates *template.Template) http.HandlerF
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
 
-		if err := templates.ExecuteTemplate(w, "layout", posts); err != nil {
+		data := struct {
+			Posts []model.Post
+			Page  string
+		}{
+			Posts: posts,
+			Page:  "Blog",
+		}
+
+		if err := templates.ExecuteTemplate(w, "layout", data); err != nil {
 			// log the detailed error and return with generic 500
 			log.Print(err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)

@@ -31,6 +31,14 @@
           alt="Pixel art cat"
         />
       </span>
+      <nav>
+        <ul>
+          <li><a class="{{if eq .Page "Home"}}active{{end}}" href="/">Home</a></li>
+          <li><a class="{{if eq .Page "Blog"}}active{{end}}"href="/blog/">Blog</a></li>
+          <li class="placeholder"></li>
+          <li class="placeholder"></li>
+        </ul>
+      </nav>
       <hr />
     </header>
     <main>{{template "content" .}}</main>

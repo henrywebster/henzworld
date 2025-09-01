@@ -66,7 +66,7 @@ func main() {
 		}
 
 		blogHandler := henzworld.NewBlogHandler(db, blogTemplate)
-		http.HandleFunc("/blog/", blogHandler)
+		http.HandleFunc("/blog/{$}", blogHandler)
 	}
 
 	log.Printf("Starting henzworld on :%s", config.Port)
