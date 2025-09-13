@@ -79,7 +79,7 @@ func NewHomeHandler(clients *Clients, templates *template.Template, navEnabled b
 	}
 }
 
-func NewBlogHandler(db *database.DB, templates *template.Template) http.HandlerFunc {
+func NewBlogHandler(db *database.DB, blogTemplate *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		posts, err := db.GetPosts()
 		if err != nil {
@@ -97,10 +97,35 @@ func NewBlogHandler(db *database.DB, templates *template.Template) http.HandlerF
 			NavEnabled: true,
 		}
 
-		if err := templates.ExecuteTemplate(w, "layout", data); err != nil {
+		if err := blogTemplate.ExecuteTemplate(w, "layout", data); err != nil {
 			// log the detailed error and return with generic 500
 			log.Print(err)
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		}
+	}
+}
+
+func NewBlogPostHandler(db *database.DB, postTemplate *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		slug := r.PathValue("slug")
+
+		post, err := db.GetPost(slug)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+		data := struct {
+			Post       *model.Post
+			Page       string
+			NavEnabled bool
+		}{
+			Post:       post,
+			Page:       "Blog",
+			NavEnabled: true,
+		}
+
+		postTemplate.ExecuteTemplate(w, "layout", data)
 	}
 }

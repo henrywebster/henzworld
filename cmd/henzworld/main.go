@@ -64,11 +64,23 @@ func main() {
 		}
 		blogTemplate, err := template.New("blog").Funcs(funcMap).ParseFiles(blogFiles...)
 		if err != nil {
-			log.Fatal("Error loading templates:", err)
+			log.Fatal("Error loading blog template:", err)
 		}
 
 		blogHandler := henzworld.NewBlogHandler(db, blogTemplate)
-		http.HandleFunc("/blog/{$}", blogHandler)
+		http.HandleFunc("/blog/", blogHandler)
+
+		postFiles := []string{
+			filepath.Join(config.TemplateDir, "layout.html"),
+			filepath.Join(config.TemplateDir, "post.html"),
+		}
+		postTemplate, err := template.New("post").Funcs(funcMap).ParseFiles(postFiles...)
+		if err != nil {
+			log.Fatal("Error loading post template:", err)
+		}
+
+		postHandler := henzworld.NewBlogPostHandler(db, postTemplate)
+		http.HandleFunc("/blog/{slug}/", postHandler)
 	}
 
 	log.Printf("Starting henzworld on :%s", config.Port)

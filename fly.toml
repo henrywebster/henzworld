@@ -11,7 +11,7 @@ primary_region = 'ord'
 GO_VERSION = '1.24.5'
 
 [env]
-PORT = '8080'
+PORT = '8000'
 
 [http_service]
 internal_port = 8080

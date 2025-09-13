@@ -7,8 +7,14 @@ RUN go mod download && go mod verify
 COPY . .
 RUN go build -v -o /run-app ./cmd/henzworld
 
+FROM debian:bookworm-slim
 
-FROM gcr.io/distroless/base-debian12
+RUN apt-get update && apt-get install -y \
+    nginx \
+    supervisor \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && update-ca-certificates
 
 ARG WEB_DIR=/usr/share/henzworld/
 ENV STATIC_DIR=${WEB_DIR}/static/
@@ -16,4 +22,11 @@ ENV TEMPLATE_DIR=${WEB_DIR}/template/
 
 COPY --from=builder /usr/src/app/web /usr/share/henzworld
 COPY --from=builder /run-app /usr/local/bin/
-CMD ["run-app"]
+
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+RUN mkdir -p /var/cache/nginx
+
+EXPOSE 8080
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

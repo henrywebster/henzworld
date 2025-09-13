@@ -15,7 +15,7 @@
         {{range .Posts}}
         <tr>
           <td class="important">
-            <a href="/blog/1">{{.Title}}</a>
+            <a href="/blog/{{.Slug}}">{{.Title}}</a>
           </td>
           <td class="right-aligned">
             <time datetime="{{formatHtmlDate .CreatedAt}}"

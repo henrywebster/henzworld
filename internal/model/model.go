@@ -2,6 +2,7 @@
 package model
 
 import (
+	"html/template"
 	"time"
 )
 
@@ -36,4 +37,6 @@ type Post struct {
 	Title       string
 	CreatedAt   time.Time
 	Description string
+	Slug        string
+	Content     template.HTML
 }
