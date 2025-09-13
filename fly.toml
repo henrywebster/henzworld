@@ -23,7 +23,3 @@ processes = ['app']
 
 [[vm]]
 size = 'shared-cpu-1x'
-
-[[statics]]
-guest_path = "/usr/share/henzworld/static"
-url_prefix = "/static"

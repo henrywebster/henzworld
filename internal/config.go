@@ -16,7 +16,6 @@ type Config struct {
 	StaticDir         string
 	TemplateDir       string
 	DatabaseLocalFile string
-	CacheEnabled      bool
 	BlogEnabled       bool
 }
 
@@ -51,12 +50,6 @@ func LoadConfig() (*Config, error) {
 		return nil, err
 	}
 
-	cacheEnabledValue := os.Getenv("CACHE_ENABLED")
-	cacheEnabled, err := strconv.ParseBool(cacheEnabledValue)
-	if err != nil {
-		cacheEnabled = true
-	}
-
 	blogEnabledValue := os.Getenv("BLOG_ENABLED")
 	blogEnabled, err := strconv.ParseBool(blogEnabledValue)
 	if err != nil {
@@ -78,7 +71,6 @@ func LoadConfig() (*Config, error) {
 		Port:              port,
 		StaticDir:         *staticDir,
 		TemplateDir:       *templateDir,
-		CacheEnabled:      cacheEnabled,
 		DatabaseLocalFile: databaseLocalFile,
 		BlogEnabled:       blogEnabled,
 	}, nil
