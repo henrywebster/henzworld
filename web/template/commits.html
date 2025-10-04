@@ -1,4 +1,4 @@
-{{define "commits"}}
+{{define "commits"}} {{if .Commits}}
 <section class="full-width" role="region" aria-label="About">
   <header>
     <h2>After-Hours Code</h2>
@@ -34,4 +34,12 @@
     </nav>
   </footer>
 </section>
-{{end}}
+{{else}}
+<section class="full-width error">
+  <header>
+    <h2>After-Hours Code</h2>
+    <img class="pixelated" src="/static/warning.png" />
+  </header>
+  <div><span>Something went horribly wrong.</span></div>
+</section>
+{{end}} {{end}}

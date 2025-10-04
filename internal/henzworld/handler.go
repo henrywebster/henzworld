@@ -32,11 +32,9 @@ func NewHomeHandler(clients *Clients, templates *template.Template, navEnabled b
 		commits, err := clients.GitHub.GetCommits()
 		if err != nil {
 			log.Print(err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
+		} else {
+			data.Commits = commits
 		}
-
-		data.Commits = commits
 
 		// Movies
 
