@@ -2,9 +2,7 @@
 <article>
   <heading class="full-width">
     <h2>{{.Post.Title}}</h2>
-    <time datetime="{{.Post.CreatedAt}}"
-      >{{formatDateTime .Post.CreatedAt}}</time
-    >
+    <time datetime="{{.Post.CreatedAt}}">{{formatDate .Post.CreatedAt}}</time>
   </heading>
   <div class="three-quarters-width color-reversed">{{.Post.Content}}</div>
 </article>

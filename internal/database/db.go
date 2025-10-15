@@ -27,7 +27,7 @@ func New(dbSourceName string) (*DB, error) {
 }
 
 func (db *DB) GetPost(slug string) (*model.Post, error) {
-	query := "SELECT title, created_at, content FROM posts WHERE slug = ?"
+	query := "SELECT title, DATE(created_at) as created_at, content FROM posts WHERE slug = ?"
 
 	var post model.Post
 	var createdAtString string
@@ -36,7 +36,7 @@ func (db *DB) GetPost(slug string) (*model.Post, error) {
 	if err := row.Scan(&post.Title, &createdAtString, &contentReadBuffer); err != nil {
 		return nil, err
 	}
-	formattedCreatedAt, err := time.Parse("2006-01-02 15:04:05", createdAtString)
+	formattedCreatedAt, err := time.Parse("2006-01-02", createdAtString)
 	if err != nil {
 		return nil, err
 	}
