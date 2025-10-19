@@ -16,6 +16,7 @@ type Config struct {
 	StaticDir         string
 	TemplateDir       string
 	DatabaseLocalFile string
+	BaseURL           string
 	BlogEnabled       bool
 }
 
@@ -63,6 +64,11 @@ func LoadConfig() (*Config, error) {
 
 	databaseLocalFile := os.Getenv("DATABASE_LOCAL_FILE")
 
+	baseURL := os.Getenv("BASE_URL")
+	if baseURL == "" {
+		baseURL = "http://localhost:" + port
+	}
+
 	return &Config{
 		GHToken:           *ghToken,
 		LetterboxdURL:     *letterboxdURL,
@@ -72,6 +78,7 @@ func LoadConfig() (*Config, error) {
 		StaticDir:         *staticDir,
 		TemplateDir:       *templateDir,
 		DatabaseLocalFile: databaseLocalFile,
+		BaseURL:           baseURL,
 		BlogEnabled:       blogEnabled,
 	}, nil
 }

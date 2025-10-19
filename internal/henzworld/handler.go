@@ -7,6 +7,9 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
+
+	"github.com/gorilla/feeds"
 )
 
 func NewHomeHandler(clients *Clients, templates *template.Template, navEnabled bool) http.HandlerFunc {
@@ -125,5 +128,40 @@ func NewBlogPostHandler(db *database.DB, postTemplate *template.Template) http.H
 		}
 
 		postTemplate.ExecuteTemplate(w, "layout", data)
+	}
+}
+
+func NewBlogFeedHandler(db *database.DB, baseURL string) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/atom+xml")
+
+		now := time.Now()
+		feed := &feeds.Feed{
+			Title:       "henz.world blog",
+			Link:        &feeds.Link{Href: baseURL + "/blog"},
+			Description: "musings from the blog of Henry J. Webster",
+			Author:      &feeds.Author{Name: "Henry J. Webster", Email: "henz.world.qv1ok@dralias.com"},
+			Created:     now,
+		}
+
+		posts, err := db.GetPosts()
+		if err != nil {
+			log.Print(err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+		items := postsToFeed(posts, baseURL)
+
+		feed.Items = items
+
+		atom, err := feed.ToAtom()
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			return
+		}
+
+		w.Write([]byte(atom))
 	}
 }
