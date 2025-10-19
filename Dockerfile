@@ -20,9 +20,13 @@ ARG WEB_DIR=/usr/share/henzworld/
 ENV STATIC_DIR=${WEB_DIR}/static/
 ENV TEMPLATE_DIR=${WEB_DIR}/template/
 
+ARG DB_FILE=lm-data.db
+ENV DATABASE_LOCAL_FILE=/var/lib/app/${DB_FILE}
+
 COPY --from=builder /usr/src/app/web /usr/share/henzworld
 COPY --from=builder /run-app /usr/local/bin/
 
+COPY ${DB_FILE} /var/lib/app/${DB_FILE}
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

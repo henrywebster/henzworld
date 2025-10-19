@@ -3,7 +3,7 @@
   <section class="full-width">
     <header>
       <h2>Posts</h2>
-      <img class="pixelated" src="/static/film.png" />
+      <img class="pixelated" src="/static/document.png" />
     </header>
     <div>
       <table class="blog-preview">
@@ -15,7 +15,7 @@
         {{range .Posts}}
         <tr>
           <td class="important">
-            <a href="/blog/{{.Slug}}">{{.Title}}</a>
+            <a href="/blog/post/{{.Slug}}">{{.Title}}</a>
           </td>
           <td class="right-aligned">
             <time datetime="{{formatHtmlDate .CreatedAt}}"
@@ -27,11 +27,9 @@
         {{end}}
       </table>
     </div>
-    <!--
     <footer>
       <span><a href="/rss">Subscribe with RSS</a></span>
     </footer>
-    -->
   </section>
 </article>
 {{end}}
