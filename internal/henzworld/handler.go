@@ -44,8 +44,6 @@ func NewHomeHandler(clients *Clients, templates *template.Template, navEnabled b
 		feed, err := clients.Letterboxd.GetRecentlyWatched()
 		if err != nil {
 			log.Print(err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
 		}
 
 		data.RecentlyWatched = feed

@@ -1,4 +1,4 @@
-{{define "movies"}}
+{{define "movies"}} {{if .RecentlyWatched}}
 <section class="half-width" role="region" aria-label="About">
   <header>
     <h2>Recently Watched</h2>
@@ -23,4 +23,13 @@
     </table>
   </div>
 </section>
-{{end}}
+{{else}}
+<section class="error">
+  <header>
+    <h2>Recently Watched</h2>
+    <img class="pixelated" src="/static/warning.png" />
+  </header>
+  <div><span>Something went horribly wrong.</span></div>
+</section>
+{{end}} {{end}}
+
