@@ -116,6 +116,10 @@ body > footer {
   nav > ul {
     grid-template-columns: 1fr 1fr;
   }
+
+  .hide-mobile {
+	  display: none;
+  }
 }
 
 a,
