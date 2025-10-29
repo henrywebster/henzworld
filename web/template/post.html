@@ -1,9 +1,29 @@
-{{define "content"}}
-<article>
-  <heading class="full-width">
-    <h2>{{.Post.Title}}</h2>
-    <time datetime="{{.Post.CreatedAt}}">{{formatDate .Post.CreatedAt}}</time>
-  </heading>
-  <div class="three-quarters-width color-reversed">{{.Post.Content}}</div>
+{{ define "content" }}
+<article class="full-width">
+    <heading>
+    <h1>{{.Post.Title}}</h1>
+    <dl>
+        <dt>Author:</dt>
+        <dd>
+            Henry J. Webster
+        </dd>
+        <dt>Published:</dt>
+        <dd>
+            <time datetime="{{.Post.CreatedAt}}">{{ formatDate .Post.CreatedAt }}</time>
+        </dd>
+    </dl>
+    </heading>
+    <div>{{.Post.Content}}</div>
+<footer>
+    <div>
+        <header>
+            <h2>Contact</h2>
+        </header>
+        <address>
+            <a href= "mailto:henz.world.qv1ok@dralias.com">Email</a>
+            <a href= "https://www.linkedin.com/in/hwebs/">LinkedIn</a>
+        </address>
+    </div>
+</footer>
 </article>
-{{end}}
+{{ end }}

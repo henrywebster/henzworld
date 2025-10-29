@@ -1,15 +1,12 @@
-{{define "status"}}
-<section class="half-width" role="region" aria-label="About">
-  <header>
-    <h2>Latest Status</h2>
-    <img class="pixelated" src="/static/chat.png" />
-  </header>
-  <div>
+{{ define "status" }}
+<section class="boxed">
+    <header>
+        <h2>Latest Status</h2>
+    </header>
     <div>{{.Status.Content}}</div>
-  </div>
-  <footer>
-    <span>{{.Status.Face}}</span>
-    <span>{{.Status.TimeAgo}}</span>
-  </footer>
+    <footer>
+        <span>{{.Status.Face}}</span>
+        <span>{{.Status.TimeAgo}}</span>
+    </footer>
 </section>
-{{end}}
+{{ end }}

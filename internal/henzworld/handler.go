@@ -12,7 +12,43 @@ import (
 	"github.com/gorilla/feeds"
 )
 
-func NewHomeHandler(clients *Clients, templates *template.Template, navEnabled bool) http.HandlerFunc {
+
+func NewHomeHandler(db *database.DB, templates *template.Template) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+
+
+		about, err := db.GetText("about")
+		if err != nil {
+			log.Print(err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+
+
+		why, err := db.GetText("why")
+		if err != nil {
+			log.Print(err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+
+		data := struct {
+			Page       string
+			Content *template.HTML
+			WhyContent *template.HTML
+		}{
+			Page:       "Home",
+			Content: about,
+			WhyContent: why,
+		}
+
+		if err := templates.ExecuteTemplate(w, "layout", data); err != nil {
+			log.Print(err)
+			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		}
+
+	}
+}
+
+func NewNowHandler(clients *Clients, templates *template.Template) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		data := struct {
 			Title            string
@@ -22,12 +58,10 @@ func NewHomeHandler(clients *Clients, templates *template.Template, navEnabled b
 			Status           *model.Status
 			CurrentlyReading []model.Book
 			Page             string
-			NavEnabled       bool
 		}{
 			Title:      "home",
 			Message:    "henz world",
-			Page:       "Home",
-			NavEnabled: navEnabled,
+			Page:       "Now",
 		}
 
 		// Commits
@@ -89,11 +123,9 @@ func NewBlogHandler(db *database.DB, blogTemplate *template.Template) http.Handl
 		data := struct {
 			Posts      []model.Post
 			Page       string
-			NavEnabled bool
 		}{
 			Posts:      posts,
 			Page:       "Blog",
-			NavEnabled: true,
 		}
 
 		if err := blogTemplate.ExecuteTemplate(w, "layout", data); err != nil {
@@ -118,11 +150,9 @@ func NewBlogPostHandler(db *database.DB, postTemplate *template.Template) http.H
 		data := struct {
 			Post       *model.Post
 			Page       string
-			NavEnabled bool
 		}{
 			Post:       post,
 			Page:       "Blog",
-			NavEnabled: true,
 		}
 
 		postTemplate.ExecuteTemplate(w, "layout", data)

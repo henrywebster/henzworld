@@ -6,6 +6,7 @@
       flyctl
       sqlite
       dbmate
+      djlint
     ];
 
     shellHook = ''

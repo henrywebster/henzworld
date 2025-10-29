@@ -83,3 +83,22 @@ func (db *DB) GetPosts() ([]model.Post, error) {
 
 	return posts, nil
 }
+
+func (db *DB) GetText(name string) (*template.HTML, error) {
+	query := "SELECT content FROM texts WHERE name = ?"
+	var contentReadBuffer []byte
+
+	row := db.conn.QueryRow(query, name)
+	if err := row.Scan(&contentReadBuffer); err != nil {
+		return nil, err
+	}
+
+	markdown := goldmark.New(goldmark.WithExtensions(extension.Footnote))
+
+	var contentWriteBuffer bytes.Buffer
+	if err := markdown.Convert(contentReadBuffer, &contentWriteBuffer); err != nil {
+		return nil, err
+	}
+	content := template.HTML(contentWriteBuffer.String())
+	return &content, nil
+}

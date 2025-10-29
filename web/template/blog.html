@@ -1,35 +1,21 @@
-{{define "content"}}
-<article>
-  <section class="full-width">
-    <header>
-      <h2>Posts</h2>
-      <img class="pixelated" src="/static/document.png" />
-    </header>
-    <div>
-      <table class="blog-preview">
-        <tr>
-          <th>Title</th>
-          <th>Published Date</th>
-          <th>Description</th>
-        </tr>
-        {{range .Posts}}
-        <tr>
-          <td class="important">
+{{ define "content" }}
+<h1>Blog</h1>
+<table class="full-width">
+    <tr>
+        <th>Title</th>
+        <th>Published Date</th>
+    </tr>
+    {{ range .Posts }}
+    <tr>
+        <td>
             <a href="/blog/post/{{.Slug}}">{{.Title}}</a>
-          </td>
-          <td class="right-aligned">
-            <time datetime="{{formatHtmlDate .CreatedAt}}"
-              >{{formatDate .CreatedAt}}</time
-            >
-          </td>
-          <td>{{.Description}}</td>
-        </tr>
-        {{end}}
-      </table>
-    </div>
-    <footer>
-      <span><a href="/blog/feed">Subscribe via Atom</a></span>
-    </footer>
-  </section>
-</article>
-{{end}}
+        </td>
+        <td class="right-aligned">
+            <time datetime= "{{ formatHtmlDate .CreatedAt }}">{{formatDate
+            .CreatedAt}}</time>
+        </td>
+    </tr>
+    {{ end }}
+</table>
+<span><a href="/blog/feed">Subscribe via Atom</a></span>
+{{ end }}

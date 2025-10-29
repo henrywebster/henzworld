@@ -40,3 +40,4 @@ type Post struct {
 	Slug        string
 	Content     template.HTML
 }
+

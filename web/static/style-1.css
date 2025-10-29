@@ -1,0 +1,114 @@
+:root {
+	--bg-color: #fdfdfd;
+	--fg-color: #000;
+	--link-color: #00f;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg-color: #1a1a1a;
+		--fg-color: #f7f7f7;
+		--link-color: #56c8ff;
+	}
+}
+
+html {
+	background-color: var(--bg-color);
+	color: var(--fg-color);
+	scrollbar-gutter: stable;
+}
+
+body {
+	max-width: 800px;
+	margin: 20px auto;
+}
+
+main {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+
+a,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+  color: var(--link-color);
+}
+
+nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav > ul > li {
+	display: inline;
+	padding-right: 10px;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+figure {
+	margin: 0;
+}
+
+h1, .full-width {
+	grid-column: 1 / -1;
+}
+
+table {
+	width: 100%;
+	border-spacing: 0;
+}
+
+th {
+	text-align: left;
+}
+
+table time {
+	white-space: nowrap;
+	font-family: monospace;
+}
+
+h1 {
+	margin: 0;
+}
+
+h2 {
+	margin-top: 0;
+}
+
+.boxed {
+	border: 1px solid var(--fg-color);
+
+	display: flex;
+	flex-direction: column;
+}
+
+.boxed header,
+.boxed footer,
+.boxed table,
+.boxed figcaption,
+.boxed div,
+.boxed address {
+	padding: 4px 10px;
+}
+
+.boxed h2 {
+	margin: 0;
+}
+
+.boxed header {
+	border-bottom: 1px solid var(--fg-color);
+}
+
+.boxed footer {
+	border-top: 1px solid var(--fg-color);
+	margin-top: auto;
+}
+

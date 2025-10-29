@@ -17,6 +17,11 @@ func main() {
 		log.Fatal("Could not load config:", err)
 	}
 
+	clients := henzworld.SetupClients(config)
+
+
+	db, _ := database.New(config.DatabaseLocalFile)
+
 	funcMap := template.FuncMap{
 		"formatDate": func(t time.Time) string {
 			return t.Format("Jan 02, 2006")
@@ -36,28 +41,37 @@ func main() {
 	homeFiles := []string{
 		filepath.Join(config.TemplateDir, "layout.html"),
 		filepath.Join(config.TemplateDir, "home.html"),
-		filepath.Join(config.TemplateDir, "brief.html"),
-		filepath.Join(config.TemplateDir, "commits.html"),
-		filepath.Join(config.TemplateDir, "movies.html"),
-		filepath.Join(config.TemplateDir, "reading.html"),
-		filepath.Join(config.TemplateDir, "status.html"),
 	}
 	homeTemplate, err := template.New("home").Funcs(funcMap).ParseFiles(homeFiles...)
 	if err != nil {
 		log.Fatal("Error loading templates:", err)
 	}
 
-	clients := henzworld.SetupClients(config)
+	homeHandler := henzworld.NewHomeHandler(db, homeTemplate)
 
-	navEnabled := config.BlogEnabled
+	nowFiles := []string{
+		filepath.Join(config.TemplateDir, "layout.html"),
+		filepath.Join(config.TemplateDir, "now.html"),
+		filepath.Join(config.TemplateDir, "commits.html"),
+		filepath.Join(config.TemplateDir, "movies.html"),
+		filepath.Join(config.TemplateDir, "reading.html"),
+		filepath.Join(config.TemplateDir, "status.html"),
+	}
+	nowTemplate, err := template.New("now").Funcs(funcMap).ParseFiles(nowFiles...)
+	if err != nil {
+		log.Fatal("Error loading templates:", err)
+	}
 
-	homeHandler := henzworld.NewHomeHandler(clients, homeTemplate, navEnabled)
+	nowHandler := henzworld.NewNowHandler(clients, nowTemplate);
+
+
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(config.StaticDir))))
 	http.HandleFunc("/{$}", homeHandler)
+	http.HandleFunc("/now/", nowHandler)
 
 	if config.BlogEnabled {
-		db, _ := database.New(config.DatabaseLocalFile)
+		//db, _ := database.New(config.DatabaseLocalFile)
 		blogFiles := []string{
 			filepath.Join(config.TemplateDir, "layout.html"),
 			filepath.Join(config.TemplateDir, "blog.html"),

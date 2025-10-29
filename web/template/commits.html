@@ -1,45 +1,41 @@
-{{define "commits"}} {{if .Commits}}
-<section class="full-width" role="region" aria-label="About">
-  <header>
-    <h2>After-Hours Code</h2>
-    <img class="pixelated" src="/static/moon.png" />
-  </header>
-  <div>
-    <table class="monospaced rows-gridded">
-      <th>Message</th>
-      <th>Repo</th>
-      <th>Datetime</th>
-      {{range .Commits}}
-      <tr>
-        <td>
-          <a href="{{.URL}}">{{.Message}}</a>
-        </td>
-        <td>
-          <a href="{{.RepoURL}}">{{.RepoName}}</a>
-        </td>
-        <td class="right-aligned">
-          <time datetime="{{formatHtmlDateTime .Date}}"
-            >{{formatDateTime .Date}}</time
-          >
-        </td>
-      </tr>
-      {{end}}
+{{ define "commits" }} {{ if .Commits }}
+<section class="full-width boxed">
+    <header>
+        <h2>Personal Code</h2>
+    </header>
+    <table class="full-width collapsed">
+        <tr>
+            <th>Message</th>
+            <th>Repo</th>
+            <th>Datetime</th>
+            {{ range .Commits }}
+        </tr>
+        <tr>
+            <td class="full-width">
+                <a href="{{.URL}}">{{.Message}}</a>
+            </td>
+            <td class="right-aligned">
+                <a href="{{.RepoURL}}">{{.RepoName}}</a>
+            </td>
+            <td class="right-aligned">
+                <time datetime= "{{ formatHtmlDateTime .Date }}">{{formatDateTime
+                .Date}}</time>
+            </td>
+        </tr>
+        {{ end }}
     </table>
-  </div>
-  <footer>
-    <nav>
-      <a href="https://github.com/henrywebster" target="_blank" rel="noopener"
-        >GitHub</a
-      >
-    </nav>
-  </footer>
+    <footer>
+        <a href="https://github.com/henrywebster" target="_blank" rel="noopener">GitHub</a>
+    </footer>
 </section>
-{{else}}
+{{ else }}
 <section class="full-width error">
-  <header>
-    <h2>After-Hours Code</h2>
-    <img class="pixelated" src="/static/warning.png" />
-  </header>
-  <div><span>Something went horribly wrong.</span></div>
+    <header>
+        <h2>After-Hours Code</h2>
+        <img class="pixelated" src= "/static/warning.png">
+    </header>
+    <div>
+        <span>Something went horribly wrong.</span>
+    </div>
 </section>
-{{end}} {{end}}
+{{ end }} {{ end }}

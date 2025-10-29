@@ -1,22 +1,22 @@
-<!-- Landing page for website -->
-{{define "content"}}
-<main>
-  <article>
-    <section class="half-width" role="region" aria-label="About">
-      <div class="tinted">
-        <img src="static/me.avif" alt="Picture of Henry" />
-      </div>
-    </section>
-    {{template "brief" .}} {{template "commits" .}} {{template "reading" .}}
-    {{template "status" .}} {{template "movies" .}}
-    <section class="half-width" role="region" aria-label="About">
-      <figure>
-        <div class="tinted">
-          <img src="static/cat.avif" alt="Cat in Tamba-Sasayama, Japan" />
-        </div>
+{{ define "content" }}
+<h1>Home</h1>
+<div>{{ .Content }}</div>
+<aside>
+    <div class="boxed">
+        <header>
+            <h2>Contact</h2>
+        </header>
+        <address>
+            <a href= "mailto:henz.world.qv1ok@dralias.com">Email</a>
+            <a href= "https://www.linkedin.com/in/hwebs/">LinkedIn</a>
+        </address>
+    </div>
+</aside>
+<div>{{ .WhyContent }}</div>
+<aside>
+    <figure class="boxed">
+        <img src="/static/cat.avif" alt="Cat loafing on a Japanese street.">
         <figcaption>Cat in Tamba-Sasayama, Japan</figcaption>
-      </figure>
-    </section>
-  </article>
-</main>
-{{end}}
+    </figure>
+</aside>
+{{ end }}

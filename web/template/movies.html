@@ -1,35 +1,34 @@
-{{define "movies"}} {{if .RecentlyWatched}}
-<section class="half-width" role="region" aria-label="About">
-  <header>
-    <h2>Recently Watched</h2>
-    <img class="pixelated" src="/static/film.png" />
-  </header>
-  <div>
-    <table>
-      <th>Movie</th>
-      <th>Date</th>
-      {{range .RecentlyWatched}}
-      <tr>
-        <td>
-          <a href="{{.URL}}"><em>{{.Title}}</em> ({{.Year}})</a>
-        </td>
-        <td>
-          <time class="no-wrap" datetime="{{formatHtmlDate .WatchedDate}}"
-            >{{formatDate .WatchedDate}}</time
-          >
-        </td>
-      </tr>
-      {{end}}
+{{ define "movies" }} {{ if .RecentlyWatched }}
+<section class="boxed">
+    <header>
+        <h2>Recently Watched</h2>
+    </header>
+    <table class="collapsed">
+        <tr>
+            <th>Movie</th>
+            <th>Date</th>
+        </tr>
+        {{ range .RecentlyWatched }}
+        <tr>
+            <td>
+                <a href="{{.URL}}"><em>{{.Title}}</em> ({{.Year}})</a>
+            </td>
+            <td>
+                <time datetime= "{{ formatHtmlDate .WatchedDate }}">{{formatDate
+                .WatchedDate}}</time>
+            </td>
+        </tr>
+        {{ end }}
     </table>
-  </div>
 </section>
-{{else}}
-<section class="error">
-  <header>
-    <h2>Recently Watched</h2>
-    <img class="pixelated" src="/static/warning.png" />
-  </header>
-  <div><span>Something went horribly wrong.</span></div>
-</section>
-{{end}} {{end}}
-
+{{ else }}
+<div role="alert" class="error">
+    <header>
+        <h2>Recently Watched</h2>
+        <img class="pixelated" src= "/static/warning.png">
+    </header>
+    <div>
+        <span>Something went horribly wrong.</span>
+    </div>
+</div>
+{{ end }} {{ end }}

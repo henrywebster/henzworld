@@ -1,30 +1,31 @@
-{{define "reading"}} {{if .CurrentlyReading}}
-<section class="half-width" role="region" aria-label="About">
-  <header>
-    <h2>Currently Reading</h2>
-    <img class="pixelated" src="/static/book.png" />
-  </header>
-  <div>
-    <table>
-      <th>Book</th>
-      <th>Author</th>
-      {{range .CurrentlyReading}}
-      <tr>
-        <td>
-          <a href="{{.URL}}"><em>{{.Title}}</em></a>
-        </td>
-        <td class="no-wrap">{{.AuthorName}}</td>
-      </tr>
-      {{end}}
+{{ define "reading" }} {{ if .CurrentlyReading }}
+<section class="boxed">
+    <header>
+        <h2>Currently Reading</h2>
+    </header>
+    <table class="collapsed">
+        <tr>
+            <th>Book</th>
+            <th>Author</th>
+        </tr>
+        {{ range .CurrentlyReading }}
+        <tr>
+            <td>
+                <a href="{{.URL}}"><em>{{.Title}}</em></a>
+            </td>
+            <td>{{.AuthorName}}</td>
+        </tr>
+        {{ end }}
     </table>
-  </div>
 </section>
-{{else}}
-<section class="error">
-  <header>
-    <h2>Currently Reading</h2>
-    <img class="pixelated" src="/static/warning.png" />
-  </header>
-  <div><span>Something went horribly wrong.</span></div>
-</section>
-{{end}} {{end}}
+{{ else }}
+<div role="alert" class="error">
+    <header>
+        <h2>Currently Reading</h2>
+        <img class="pixelated" src="/static/warning.png" />
+    </header>
+    <div>
+        <span>Something went horribly wrong.</span>
+    </div>
+</div>
+{{ end }} {{ end }}
