@@ -1,7 +1,7 @@
 {{ define "content" }}
 <h1>Home</h1>
-<div>{{ .Content }}</div>
-<aside>
+<div class="half-width">{{ .Content }}</div>
+<aside class="half-width">
     <div class="boxed">
         <header>
             <h2>Contact</h2>
@@ -12,8 +12,8 @@
         </address>
     </div>
 </aside>
-<div>{{ .WhyContent }}</div>
-<aside>
+<div class="half-width">{{ .WhyContent }}</div>
+<aside class="half-width">
     <figure class="boxed">
         <img src="/static/cat.avif" alt="Cat loafing on a Japanese street.">
         <figcaption>Cat in Tamba-Sasayama, Japan</figcaption>

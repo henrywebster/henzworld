@@ -57,6 +57,7 @@
 
 		--monospace: "Liberation Mono", monospace;
 		--font-family:  "Liberation Serif", serif;
+	--font-size-small: 16px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,8 +69,13 @@
 		--fg-color-2: #c7c7c7;
 		--bg-color-2: #282828;
 	}
-}
 
+	.icon {
+		filter: invert(1);
+	}
+
+
+}
 
 html {
 	background-color: var(--bg-color);
@@ -79,17 +85,18 @@ html {
 }
 
 body {
-	max-width: 800px;
+	max-width: 1000px;
 	margin: 20px auto;
 	padding: 0 20px;
 }
 
 main {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
 	gap: 20px;
 	margin-bottom: 20px;
 	margin-top: 20px;
+	font-size: 20px;
 }
 
 footer {
@@ -108,6 +115,17 @@ body > footer {
 	border-top: 1px solid var(--fg-color);
 }
 
+
+nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  font-family: var(--monospace);
+}
+
 @media (max-width: 600px) {
   main {
     grid-template-columns: 1fr;
@@ -120,6 +138,7 @@ body > footer {
   .hide-mobile {
 	  display: none;
   }
+
 }
 
 a,
@@ -130,25 +149,9 @@ a:focus {
   color: var(--link-color);
 }
 
-nav > ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  font-family: var(--monospace);
-}
-
-nav > ul > li {
-	display: inline;
-	padding-right: 10px;
-}
-
 nav > ul > li > a {
 	display: block;
 	background-color: var(--bg-color);
-	box-shadow: 2px 2px var(--fg-color-2);
 	text-align: center;
 	border: 1px solid var(--fg-color);
 	padding: 6px 10px;
@@ -156,11 +159,7 @@ nav > ul > li > a {
 
 nav > ul > li > a:hover {
 	background-color: var(--bg-color-2);
-	box-shadow: none;
-}
-
-dt {
-	font-family: var(--monospace);
+	border: 1px dotted var(--fg-color);
 }
 
 img {
@@ -175,16 +174,30 @@ figure {
 figcaption {
 	background-color: var(--bg-color-2);
 	color: var(--fg-color-2);
+	font-size: var(--font-size-small);
 }
 
 h1, .full-width {
 	grid-column: 1 / -1;
 }
 
+.half-width {
+	grid-column: span 2;
+}
+
+.centered-grid {
+	grid-column: 2 / 4;
+}
+
+#status {
+
+}
+
 table {
 	width: 100%;
 	border-spacing: 0;
 	font-family: var(--monospace);
+	font-size: 16px;
 }
 
 table th {
@@ -259,6 +272,7 @@ h2 {
 
 .boxed h2 {
 	margin: 0;
+	font-size: 20px;
 }
 
 .boxed header {
@@ -266,7 +280,7 @@ h2 {
 	/**
 	color: var(--bg-color);
 	background-color: var(--fg-color);
-	*/
+	**/
 	background-color: var(--bg-color-2);
 	font-family: var(--monospace);
 }

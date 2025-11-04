@@ -1,21 +1,13 @@
 {{ define "content" }}
-<article class="full-width">
+<article class="centered-grid">
     <heading>
     <h1>{{.Post.Title}}</h1>
-    <dl>
-        <dt>Author:</dt>
-        <dd>
-            Henry J. Webster
-        </dd>
-        <dt>Published:</dt>
-        <dd>
-            <time datetime="{{.Post.CreatedAt}}">{{ formatDate .Post.CreatedAt }}</time>
-        </dd>
-    </dl>
+    <div><b>By Henry J. Webster</b></div>
+    <time datetime="{{.Post.CreatedAt}}">{{ formatDate .Post.CreatedAt }}</time>
     </heading>
     <div>{{.Post.Content}}</div>
 <footer>
-    <div>
+    <div class="boxed">
         <header>
             <h2>Contact</h2>
         </header>
